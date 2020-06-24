@@ -4,32 +4,38 @@ public class Grid : MonoBehaviour
 {
     private Node[,] _grid;
 
-    public int GridSizeX;
-    public int GridSizeZ;
-    public int NodeSize;
+    public int GridWorldSizeX;
+    public int GridWorldSizeZ;
+    public int NodeRadius;
+    private int _nodeDiameter;
+    private int _gridSizeX;
+    private int _gridSizeZ;
 
     // Start is called before the first frame update
     void Start()
     {
-        _grid = new Node[GridSizeX, GridSizeZ];
-        var bottomLeft = new Vector3(transform.position - Vector3.right * (GridSizeX / 2), 0, );
-        for (var x = -GridSizeX; x < GridSizeX; x++)
+        _nodeDiameter = NodeRadius * 2;
+        _gridSizeX = GridWorldSizeX / _nodeDiameter;
+        _gridSizeZ = GridWorldSizeZ / _nodeDiameter;
+        _grid = new Node[_gridSizeX, _gridSizeZ];
+        var bottomLeft = transform.position - Vector3.right * (GridWorldSizeX / 2f) - Vector3.forward * (GridWorldSizeZ / 2f);
+        for (var x = 0; x < _gridSizeX; x++)
         {
-            for (var z = -GridSizeZ; z < GridSizeZ; z++)
+            for (var z = 0; z < _gridSizeZ; z++)
             {
-                _grid[x, z] = new Node { X = x, Z = z };
+                var worldPoint = bottomLeft + Vector3.right * (x * _nodeDiameter + NodeRadius) + Vector3.forward * (z * _nodeDiameter + NodeRadius);
+                _grid[x, z] = new Node { GridX = x, GridZ = z, WorldPosition = worldPoint };
             }
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDrawGizmos()
     {
         if (_grid != null)
         {
             foreach (var node in _grid)
             {
-                Gizmos.DrawCube(new Vector3(node.X, 0.1f, node.Z), Vector3.one);
+                Gizmos.DrawCube(node.WorldPosition, Vector3.one * (_nodeDiameter - 0.1f));
             }
         }
     }
