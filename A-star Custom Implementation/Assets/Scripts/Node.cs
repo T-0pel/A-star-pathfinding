@@ -10,4 +10,5 @@ public class Node
     public int GridX { get; set; }
     public int GridZ { get; set; }
     public Vector3 WorldPosition { get; set; }
+    public bool IsTraversable { get; set; } = true;
 }
