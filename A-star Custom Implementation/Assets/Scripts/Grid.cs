@@ -38,7 +38,7 @@ public class Grid : MonoBehaviour
         }
 
         _pathfindingManager = GetComponent<PathfindingManager>();
-        _path = _pathfindingManager.GetPath(NodeFromWorldPoint(StartingObject.transform.position), NodeFromWorldPoint(EndObject.transform.position));
+        _path = _pathfindingManager.GetPathWithFastPriorityQueue(NodeFromWorldPoint(StartingObject.transform.position), NodeFromWorldPoint(EndObject.transform.position));
     }
 
     public Node NodeFromWorldPoint(Vector3 worldPosition)

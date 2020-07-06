@@ -1,7 +1,7 @@
-﻿
+﻿using Priority_Queue;
 using UnityEngine;
 
-public class Node
+public class Node : FastPriorityQueueNode
 {
     public int GCost { get; set; }
     public int HCost { get; set; }
